@@ -1,0 +1,4 @@
+# Hide dotfiles and folders (.DS_Store, .nova, …) that get published alongside the site
+<IfModule mod_alias.c>
+	RedirectMatch 404 "/\."
+</IfModule>

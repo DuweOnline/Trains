@@ -1,0 +1,16 @@
+# Your National Rail token.
+# Copy nre-config.sample.php to nre-config.php and fill it in.
+nre-config.php
+.env
+.env.*
+
+# Your own stations. Copy these from template/ and fill them in.
+public_html/index.php
+public_html/site.webmanifest
+
+# Logs can contain request details
+*.log
+error_log
+
+# macOS
+.DS_Store

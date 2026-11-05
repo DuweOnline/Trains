@@ -1,0 +1,4 @@
+# Shared PHP includes — never served directly
+<IfModule mod_authz_core.c>
+	Require all denied
+</IfModule>

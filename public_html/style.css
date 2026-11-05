@@ -1,0 +1,264 @@
+/* Commuter departure boards */
+
+:root {
+	--slate-50:  #f8fafc;
+	--slate-100: #f1f5f9;
+	--slate-200: #e2e8f0;
+	--slate-400: #94a3b8;
+	--slate-500: #64748b;
+	--slate-600: #475569;
+	--slate-700: #334155;
+	--slate-800: #1e293b;
+	--slate-900: #0f172a;
+	--emerald:   #047857; /* emerald-700: 4.5:1+ on white at small sizes */
+	--red-50:    #fef2f2;
+	--red-200a:  rgb(254 202 202 / 0.5);
+	--red-700:   #b91c1c;
+	--amber-50:  #fffbeb;
+	--amber-200: #fde68a;
+	--amber-800: #92400e;
+	--amber-900: #78350f;
+	--amber-950: #451a03;
+	--sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+	--mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+	margin: 0;
+	background: var(--slate-100);
+	font-family: var(--sans);
+	color: var(--slate-900);
+	-webkit-font-smoothing: antialiased;
+}
+
+h2, h3, p { margin: 0; }
+
+.sr-only {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	padding: 0;
+	margin: -1px;
+	overflow: hidden;
+	clip: rect(0, 0, 0, 0);
+	white-space: nowrap;
+	border: 0;
+}
+
+:focus-visible {
+	outline: 3px solid #2563eb;
+	outline-offset: 2px;
+}
+
+/* ── Refresh button ─────────────────────────────────────────────────────── */
+.refresh {
+	position: fixed;
+	top: 1rem;
+	right: 1rem;
+	z-index: 50;
+	display: flex;
+	padding: 0.75rem;
+	background: #fff;
+	color: var(--slate-600);
+	border: 1px solid var(--slate-200);
+	border-radius: 9999px;
+	box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+	cursor: pointer;
+	transition: all 0.5s;
+}
+.refresh:hover  { color: var(--slate-900); }
+.refresh:active { transform: rotate(180deg); }
+
+/* ── Layout ─────────────────────────────────────────────────────────────── */
+.page {
+	min-height: 100vh;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	padding: 1rem;
+}
+@media (min-width: 1024px) {
+	.page { padding: 2.5rem; }
+}
+
+/* ── Board card (shown via html[data-board] rules in index.php) ─────────── */
+.board {
+	display: none;
+	width: 100%;
+	max-width: 28rem;
+	margin-bottom: 1.5rem;
+	background: #fff;
+	border-radius: 1.5rem;
+	overflow: hidden;
+	box-shadow: 0 25px 50px -12px rgb(0 0 0 / 0.25);
+}
+
+.board-head {
+	padding: 1.5rem;
+	background: var(--slate-900);
+	color: #fff;
+	text-transform: uppercase;
+	letter-spacing: -0.025em;
+}
+.board-head h2 { font-size: 1.5rem;  line-height: 2rem;    font-weight: 900; }
+.board-head h3 { font-size: 1.25rem; line-height: 1.75rem; font-weight: 500; opacity: 0.8; }
+
+.board-messages {
+	display: grid;
+	gap: 0.5rem;
+	padding: 0.75rem 1rem;
+	background: var(--amber-50);
+	border-bottom: 1px solid var(--amber-200);
+	font-size: 0.75rem;
+	line-height: 1.375;
+	font-weight: 500;
+	color: var(--amber-800);
+}
+.board-messages a       { font-weight: 700; color: var(--amber-900); }
+.board-messages a:hover { color: var(--amber-950); }
+
+.board-empty {
+	padding: 4rem;
+	text-align: center;
+	color: var(--slate-500);
+	font-weight: 500;
+	font-style: italic;
+}
+.board-empty-icon {
+	margin-bottom: 0.75rem;
+	font-size: 2.25rem;
+	font-style: normal;
+}
+
+.board-foot {
+	padding: 0.75rem;
+	background: var(--slate-50);
+	text-align: center;
+	font-size: 9px;
+	font-weight: 700;
+	text-transform: uppercase;
+	color: var(--slate-600);
+}
+
+/* ── Services table ─────────────────────────────────────────────────────── */
+.services {
+	width: 100%;
+	border-collapse: collapse;
+	text-align: left;
+}
+.services td { padding: 1.25rem 0.5rem; }
+.service + .service { border-top: 1px solid var(--slate-100); }
+
+.service--ontime    { background: #fff; }
+.service--delayed   { background: var(--red-50); }
+.service--cancelled { background: var(--red-200a); }
+
+.services .service-time {
+	width: 6rem;
+	padding-left: 1.5rem;
+	font-family: var(--mono);
+	font-size: 1.25rem;
+	font-weight: 900;
+	color: var(--slate-900);
+}
+
+.service-dest div {
+	width: 7rem;
+	font-size: 0.75rem;
+	font-weight: 700;
+	text-transform: uppercase;
+	color: var(--slate-800);
+}
+@media (min-width: 768px) {
+	.service-dest div { width: 8rem; }
+}
+
+.service-status {
+	width: 6rem;
+	font-size: 0.875rem;
+	line-height: 1.25;
+	font-weight: 900;
+	text-transform: uppercase;
+	color: var(--red-700);
+}
+.service--ontime .service-status {
+	font-size: 11px;
+	font-weight: 700;
+	color: var(--emerald);
+}
+.service-delay {
+	display: block;
+	font-size: 10px;
+	line-height: 1;
+	font-weight: 700;
+}
+
+.services .service-plat {
+	padding-right: 1.5rem;
+	text-align: right;
+}
+.service-plat span {
+	display: inline-block;
+	min-width: 2rem;
+	height: 2rem;
+	padding: 0 0.25rem;
+	line-height: calc(2rem - 2px);
+	text-align: center;
+	font-family: var(--mono);
+	font-size: 0.875rem;
+	font-weight: 900;
+	color: var(--slate-700);
+	background: var(--slate-100);
+	border: 1px solid var(--slate-200);
+	border-radius: 0.5rem;
+}
+
+/* ── Direction toggle ───────────────────────────────────────────────────── */
+.toggle {
+	position: relative;
+	display: flex;
+	width: 100%;
+	max-width: 20rem;
+	margin-top: 1rem;
+	padding: 0.25rem;
+	background: #fff;
+	border: 1px solid var(--slate-200);
+	border-radius: 1rem;
+	overflow: hidden;
+	box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+}
+
+.toggle-pill {
+	position: absolute;
+	top: 0.25rem;
+	bottom: 0.25rem;
+	left: 0.25rem;
+	width: calc(50% - 4px);
+	background: var(--slate-900);
+	border-radius: 0.75rem;
+	box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+	transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.toggle-btn {
+	position: relative;
+	flex: 1;
+	padding: 0.625rem 1rem;
+	background: none;
+	border: 0;
+	border-radius: 0.75rem;
+	font: inherit;
+	font-weight: 700;
+	color: var(--slate-500);
+	cursor: pointer;
+	transition: color 0.3s;
+}
+/* The toggle clips overflow, so draw the focus ring inside the button */
+.toggle-btn:focus-visible { outline-offset: -3px; outline-color: #60a5fa; }
+
+@media (prefers-reduced-motion: reduce) {
+	.refresh, .toggle-pill, .toggle-btn { transition: none; }
+}
